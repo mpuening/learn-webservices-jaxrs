@@ -52,15 +52,14 @@
 		<liberty.var.slf4j>${repo.dir}/org/slf4j/slf4j-api/${slf4j.version}/slf4j-api-${slf4j.version}.jar</liberty.var.slf4j>
 		<liberty.var.datasourceutil>${project.build.directory}/${project.artifactId}-${project.version}-datasource.jar</liberty.var.datasourceutil>
 
+		<!-- Odds and Ends -->
+		<mp-ext-openapi-ui.version>2.0.0</mp-ext-openapi-ui.version>
+		<nimbus.version>9.31</nimbus.version>
+
 		<!-- Testing support -->
 		<arquillian.version>1.7.0.Final</arquillian.version>
 		<arquillian-drone.version>3.0.0-alpha.7</arquillian-drone.version>
-		<arquillian-graphene.version>3.0.0-alpha.3</arquillian-graphene.version>
-		<!-- Fix for faces for test cases -->
-		<jakarta-faces.version>4.0.2</jakarta-faces.version>
-		<!-- Newer versions deprecate and remove code needed by Arquillian -->
-		<selenium.version>4.1.1</selenium.version>
-		<resteasy.version>6.2.3.Final</resteasy.version>
+		<resteasy.version>6.2.4.Final</resteasy.version>
 	</properties>
 
 	<dependencies>
@@ -92,7 +91,12 @@
 		<dependency>
 			<groupId>jakarta.security.enterprise</groupId>
 			<artifactId>jakarta.security.enterprise-api</artifactId>
-			<version>3.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.json</groupId>
+			<artifactId>jakarta.json-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.json.bind</groupId>
@@ -117,13 +121,13 @@
 		<dependency>
 			<groupId>org.microprofile-ext.openapi-ext</groupId>
 			<artifactId>openapi-ui</artifactId>
-			<version>2.0.0</version>
+			<version>${mp-ext-openapi-ui.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>nimbus-jose-jwt</artifactId>
-			<version>9.31</version>
+			<version>${nimbus.version}</version>
 		</dependency>
 
 		<dependency>
@@ -133,6 +137,12 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.dataformat</groupId>
+					<artifactId>jackson-dataformat-toml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -160,16 +170,10 @@
 			<artifactId>resteasy-client</artifactId>
 			<version>${resteasy.version}</version>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss</groupId>
-					<artifactId>jandex</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson2-provider</artifactId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
 			<version>${resteasy.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -221,12 +225,6 @@
 			<artifactId>tomee-security</artifactId>
 			<version>${tomee-runtime.version}</version>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.myfaces.core</groupId>
-					<artifactId>myfaces-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -234,9 +232,10 @@
 		<dependencies>
 			<dependency>
 				<groupId>jakarta.platform</groupId>
-				<artifactId>jakarta.jakartaee-web-api</artifactId>
+				<artifactId>jakarta.jakartaee-bom</artifactId>
 				<version>${jakartaee.version}</version>
-				<scope>provided</scope>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.microprofile</groupId>
