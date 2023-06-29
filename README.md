@@ -86,12 +86,6 @@ kubectl delete pod learn-webservices-jaxrs
 docker rmi io.github.learnjaxrs/learn-webservices-jaxrs:latest
 ```
 
-To add the Maven wrapper to this project, run this command:
-
-```
-mvn -N wrapper:wrapper
-```
-
 Micro-profile Information
 =========================
 This application uses Micro-profile dependencies, mainly the configuration and health APIs. The properties
