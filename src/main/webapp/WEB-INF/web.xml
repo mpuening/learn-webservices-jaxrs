@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+	version="5.0">
+
+	<!-- The purpose for this setting is for WildFly to support @RolesAllowed -->
+	<!-- See https://docs.jboss.org/resteasy/docs/6.2.4.Final/userguide/html/ch43.html -->
+	<!-- QUESTIONABLE -->
+	<context-param>
+		<param-name>resteasy.role.based.security</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+</web-app>
