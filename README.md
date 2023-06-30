@@ -7,7 +7,7 @@ This project is a simple JAX-RS application that includes a simple Ping service.
 
 > **Note**
 > There is a Maven Archetype of this project available at
-> https://github.com/mpuening/maven-archetypes
+> https://github.com/mpuening/maven-archetypes#JAX-RS-API
 
 This application was tested (to varying levels of success) against these application servers:
 
