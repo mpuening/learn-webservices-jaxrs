@@ -1,6 +1,8 @@
 Learn REST Web Services (JAX-RS)
 ================================
 
+[![Continuous Integration](https://github.com/mpuening/learn-webservices-jaxrs/actions/workflows/ci.yml/badge.svg)](https://github.com/mpuening/learn-webservices-jaxrs/actions/workflows/ci.yml)
+
 This project is a simple JAX-RS application that includes a simple Ping service.
 
 This application was tested (to varying levels of success) against these application servers:
