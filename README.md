@@ -49,12 +49,15 @@ From that UI page, you have simple links to:
 
 1. Ping the server
 2. Check authentication with "Who am I?" link
-3. View the OpenAPI Specification
-4. Use Swagger UI
+3. View health checks
+4. View the OpenAPI Specification
+5. Use Swagger UI
+
+![alt text](screenshot.png "Screen Shot")
 
 Application servers vary in some ways, so the UI reflects that.
 
-Here are a couple of `curl` commands to test API from the command line:
+Here are a couple of `curl` commands to test the API from the command line:
 
 ```
 curl --verbose http://localhost:8080/learn-webservices-jaxrs/api/ping
