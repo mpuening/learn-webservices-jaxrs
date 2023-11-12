@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.1</version>
+		<version>3.1.5</version>
 	</parent>
 
 	<properties>
@@ -25,7 +25,7 @@
 		<microprofile.version>5.0</microprofile.version>
 
 		<!-- https://github.com/OpenLiberty/ci.maven -->
-		<liberty-maven-plugin.version>3.7.1</liberty-maven-plugin.version>
+		<liberty-maven-plugin.version>3.9</liberty-maven-plugin.version>
 		<liberty-runtime.version>23.0.0.2</liberty-runtime.version>
 		<liberty.loose-application>true</liberty.loose-application>
 
@@ -39,8 +39,8 @@
 		<cargo-glassfish-runtime>glassfish7x</cargo-glassfish-runtime>
 
 		<!-- https://tomee.apache.org/master/docs/tomee-maven-plugin.html -->
-		<tomee-maven-plugin.version>9.1.0</tomee-maven-plugin.version>
-		<tomee-runtime.version>9.1.0</tomee-runtime.version>
+		<tomee-maven-plugin.version>9.1.1</tomee-maven-plugin.version>
+		<tomee-runtime.version>9.1.1</tomee-runtime.version>
 
 		<!-- Library support for Open Liberty -->
 		<repo.dir>${user.home}/.m2/repository</repo.dir>
@@ -57,7 +57,7 @@
 		<nimbus.version>9.31</nimbus.version>
 
 		<!-- Testing support -->
-		<arquillian.version>1.7.0.Final</arquillian.version>
+		<arquillian.version>1.7.2.Final</arquillian.version>
 		<arquillian-drone.version>3.0.0-alpha.7</arquillian-drone.version>
 		<resteasy.version>6.2.4.Final</resteasy.version>
 	</properties>
