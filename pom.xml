@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.7</version>
+		<version>3.2.1</version>
 	</parent>
 
 	<properties>
@@ -184,11 +184,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
-			<artifactId>json-path</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path-assert</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -344,7 +339,7 @@
 						<configuration>
 							<tomeeVersion>${tomee-runtime.version}</tomeeVersion>
 							<tomeeClassifier>plus</tomeeClassifier>
-							<args>--add-opens java.base/java.lang=ALL-UNNAMED</args>
+							<args>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.rmi/sun.rmi.transport=ALL-UNNAMED</args>
 							<systemVariables>
 								<app.greeting>Hello from Apache TomEE!</app.greeting>
 								<tomee.mp.scan>all</tomee.mp.scan>

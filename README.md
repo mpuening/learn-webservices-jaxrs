@@ -190,9 +190,6 @@ has an application server running on port 8080, funny results can occur. The emb
 cause the test cases to fail when the port is in use. The test case continue to invoke APIs running
 on whatever server happens to be running on port 8080. Be mindful of this.
 
-Also note that the test cases need Java module settings configured to get TomEE running properly.
-There are notes in the test cases should one want to run the test cases in an IDE.
-
 Questionable Information
 ========================
 
