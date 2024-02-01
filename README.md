@@ -95,14 +95,24 @@ kubectl delete pod learn-webservices-jaxrs
 docker rmi io.github.learnjaxrs/learn-webservices-jaxrs:latest
 ```
 
-Micro-profile Information
-=========================
-This application uses Micro-profile dependencies, mainly the configuration and health APIs. The properties
-this application uses are located in `src/main/resources/META-INF/microprofile-config.properties`.
+Micro-profile / Environment Information
+=======================================
+This application uses Micro-profile dependencies. The properties this application uses are
+located in `src/main/resources/META-INF/microprofile-config.properties`.
 
 These properties can be overridden with either system properties are environment variables. As an example,
 `app.greeting` is set differently for each application server. See `pom.xml`, `server.env`, and
 `wildfly.cli` for examples how this can be done.
+
+This application has an `Environment` abstraction that implements profiles. Each profile can
+contain difference values for a particular property. In addition, a value of a property can be
+an expression that can be evaluated depending on an implementation. The only implementation
+though is via micro-profile properties.
+
+The active profiles are set via a system property named `app.profiles.active` or an environment variable
+named `APP_PROFILES_ACTIVE`. This value is set to `loccal` when running the application using the
+maven commands, (see `pom.xml`, `server.env` and `wildfly.cli`). It is set to  `unittest` when
+running the test cases.
 
 Database Information
 ====================
@@ -123,7 +133,7 @@ EntityManager entityManager;
 
 If one wants to remove database support, do the following:
 
-* Remove the DataSource and Flyway code from the project (`util.sql` package)
+* Remove the DataSource and Flyway code from the project (`util.sql` and `util.flyway` packages)
 * Remove the `DataSourceConfiguration` code
 * Remove the `persistence.xml` file
 * Remove the Flyway `db` files
@@ -148,8 +158,8 @@ https://github.com/mpuening/learn-jakartaee/tree/master/learn-jakartaee-ldap-ser
 ```
 
 The other identity store included in this application is a test store. This is convenient for test cases and
-running locally. It is enabled where the `TEST_USERS_ENABLED` environment variable or `test.users.enabled`
-system property is set to "true". This flag is set to true when running the application using the maven
+running locally. It is enabled when environment property `test.users.enabled` is set to "true". This flag is
+set to true when running the application using the `loccal` (and `unittest`) profiles which is set maven
 commands documented above (see `pom.xml`, `server.env` and `wildfly.cli`).
 
 The `JWTVerifier` provides support for OAuth2 access tokens. The easiest way to get an access token is
@@ -208,7 +218,7 @@ seems to work well, not all designs have a ability of having a managed bean. An 
 is by using `ConfigProvider.getConfig()`. This is supposed to return an object that one can then get values
 of properties. Unfortunately, GlassFish does not support this, for they seemed to neglect registering a
 `ConfigProviderResolver` class in SPI (or I failed to find the switch to enable it). To get around this issue,
-there is code in both `MPConfiguredLDAPCredentialValidator` and `MPConfiguredDataSource` to register a provider.
+there is code in `MPExpressionEvaluator` to register a provider.
 
 **Micro-profile Config / OpenAPI ClassLoader Issue**
 
@@ -228,7 +238,7 @@ This code *is* consistent on all application servers:
 ConfigProvider.getConfig(OpenApiConfiguration.class.getClassLoader()); // Will find proper microprofile-config.properties
 ```
 
-Keep this mind for the code that uses Micro-profile Config.
+Keep this in mind for the code that uses Micro-profile Config.
 
 **Hikari-based DataSource**
 
@@ -236,8 +246,8 @@ Getting a `DataSource` configured and customized using system properties or envi
 consistently across all supported application servers is a seemingly impossible task using just the Jakarta EE
 specification. The differences in the implementations of the application servers get in the way. But as the old
 adage says, everything can be solved by another level of indirection. And that is what this application has with
-`AbstractConfiguredDataSource` and `MPConfiguredDataSource`. These classes pull properties from
-Micro-profile Config and smooth over all the various differences of the supported application servers. The
+`ConfigurableDataSource` and `MPConfigurableDataSource`. These classes pull properties from the `Environment` 
+(Micro-profile Config) and smooth over all the various differences of the supported application servers. The
 `DataSourceConfiguration` class uses that with an Hikari DataSource. What ends up happening though is that
 there is potentially a *connection-pool-enabled* DataSource that sits on top of a *connection-pool-enabled* DataSource.
 Is that a problem?
@@ -246,7 +256,7 @@ Is that a problem?
 
 Including FlyWay migrations inside an application is a bad idea because one inevitably deploys the application
 in a cluster with multiple instances. And then you have trouble. But the convenience for local development
-is high. This application should probably be upgraded to include a flag to indicate if a FlyWay migration
+is high. Fortunately, this application has an `Environment` property to indicate if a FlyWay migration
 should occur.
 
 **Health Checks**

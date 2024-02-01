@@ -15,7 +15,8 @@ public class ReadyCheck implements HealthCheck {
 	@Override
 	public HealthCheckResponse call() {
 		String name = "JAX-RS API Ready Check";
-		boolean flywayComplete = FlywayMigration.isFlywayMigrationComplete();
+		boolean flywayComplete = FlywayMigration.isFlywayMigrationComplete()
+				|| FlywayMigration.isFlywayMigrationSkipped();
 		boolean isUp = flywayComplete;
 		return HealthCheckResponse
 				.named(name)

@@ -10,9 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.JWKSourceBuilder;
@@ -26,6 +23,10 @@ import com.nimbusds.jwt.proc.DefaultJWTClaimsVerifier;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import com.nimbusds.jwt.proc.JWTProcessor;
 
+import io.github.learnjaxrs.config.SecurityConfiguration;
+import io.github.learnjaxrs.util.env.ConfigurableEnvironment;
+import io.github.learnjaxrs.util.env.Environment;
+import io.github.learnjaxrs.util.env.MPExpressionEvaluator;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.CallerPrincipal;
@@ -95,13 +96,15 @@ public class JWTVerifier implements AuthProvider {
 
 	public JWTVerifier() {
 		try {
-			Config config = ConfigProvider.getConfig();
-			String issuerUrl = config.getConfigValue("oauth2.issuer.url").getValue();
-			String jwksUrl = config.getConfigValue("oauth2.jwks.url").getValue();
+			Environment environment = new ConfigurableEnvironment(
+					SecurityConfiguration.class.getClassLoader(), new MPExpressionEvaluator());
+
+			String issuerUrl = environment.getProperty("Issuer", "oauth2.issuer.url");
+			String jwksUrl = environment.getProperty("JWKS Url", "oauth2.jwks.url");
 			jwtProcessor = createJwtProcessor(
 					issuerUrl, jwksUrl,
 					Arrays.asList("sub", "iat", "exp", "scope", "aud"));
-			expectedAudience = config.getConfigValue("oauth2.aud").getValue();
+			expectedAudience = environment.getProperty("Audience", "oauth2.aud");
 		} catch (Exception e) {
 			throw new IllegalStateException("Unable to configure JWTResourceAuthProvider", e);
 		}

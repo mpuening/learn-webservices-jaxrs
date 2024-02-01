@@ -3,6 +3,7 @@ package io.github.learnjaxrs.util.security.identity;
 import java.util.Map;
 import java.util.Set;
 
+import io.github.learnjaxrs.util.env.Environment;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
@@ -15,8 +16,6 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
  * test.users.allowed system property is set to true.
  */
 public class TestCredentialValidator implements CredentialValidator {
-
-	public static final String TEST_USERS_ENABLED_ENV_VAR = "TEST_USERS_ENABLED";
 
 	public static final String TEST_USERS_ENABLED_SYS_PROP = "test.users.enabled";
 
@@ -44,21 +43,19 @@ public class TestCredentialValidator implements CredentialValidator {
 	private final Map<String, Set<String>> roles;
 	private final boolean isEnabled;
 
-	public TestCredentialValidator(Map<String, String> users, Map<String, Set<String>> roles) {
+	public TestCredentialValidator(Environment environment, Map<String, String> users, Map<String, Set<String>> roles) {
 		this.users = users;
 		this.roles = roles;
-		this.isEnabled = checkIfEnabled();
+		this.isEnabled = checkIfEnabled(environment);
 	}
 
-	public TestCredentialValidator() {
-		this(USERS, ROLES);
+	public TestCredentialValidator(Environment environment) {
+		this(environment, USERS, ROLES);
 	}
 
-	protected boolean checkIfEnabled() {
-		String testUsersEnabled = System.getenv(TEST_USERS_ENABLED_ENV_VAR);
-		if (testUsersEnabled == null) {
-			testUsersEnabled = System.getProperty(TEST_USERS_ENABLED_SYS_PROP, "false");
-		}
+	protected boolean checkIfEnabled(Environment environment) {
+		String testUsersEnabled = environment
+				.getProperty(TEST_USERS_ENABLED_SYS_PROP, TEST_USERS_ENABLED_SYS_PROP, "false");
 		return Boolean.valueOf(testUsersEnabled);
 	}
 

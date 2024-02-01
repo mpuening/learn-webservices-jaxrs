@@ -1,23 +1,18 @@
-package io.github.learnjaxrs.util.sql;
+package io.github.learnjaxrs.util.env;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 
-/**
- * This is a configurable DataSource extension that is capable of looking up
- * database connection information from the Micro-Profile configuration.
- *
- * See the DataSourceConfiguration class for example usage.
- */
-public class MPConfiguredDataSource extends AbstractConfiguredDataSource {
+public class MPExpressionEvaluator implements ExpressionEvaluator {
 
 	@Override
-	protected String evaluateExpression(String property, String expression) {
-		// LOG.debug("Evaluate " + property + ": " + expression);
+	public String evaluateExpression(String description, String expression) {
+		// LOG.debug("Evaluate " + description + ": " + expression);
 		checkConfig();
 		Config config = ConfigProvider.getConfig();
-		String value = config.getOptionalValue(expression, String.class).orElse("");
+		String propertyName = expression;
+		String value = config.getOptionalValue(propertyName, String.class).orElse(null);
 		return value;
 	}
 
@@ -51,4 +46,5 @@ public class MPConfiguredDataSource extends AbstractConfiguredDataSource {
 			}
 		}
 	}
+
 }

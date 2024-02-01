@@ -26,18 +26,18 @@ import com.zaxxer.hikari.HikariDataSource;
  *
  * QUESTIONABLE Does this place a connection pool on top of a connection pool?
  */
-public abstract class AbstractConfiguredDataSource extends HikariDataSource {
+public abstract class ConfigurableDataSource extends HikariDataSource {
 
-	protected final Logger LOG = LoggerFactory.getLogger(AbstractConfiguredDataSource.class);
+	protected final Logger LOG = LoggerFactory.getLogger(ConfigurableDataSource.class);
 
-	public AbstractConfiguredDataSource() {
+	public ConfigurableDataSource() {
 		this.setMinimumIdle(3);
 	}
 
 	@Override
 	public void setDriverClassName(String driverClassName) {
 		if (driverClassName != null) {
-			super.setDriverClassName(evaluateExpression("driver", driverClassName));
+			super.setDriverClassName(evaluateValue("driver", driverClassName));
 		}
 	}
 
@@ -48,7 +48,7 @@ public abstract class AbstractConfiguredDataSource extends HikariDataSource {
 	@Override
 	public void setJdbcUrl(String jdbcUrl) {
 		if (jdbcUrl != null) {
-			jdbcUrl = evaluateExpression("url", jdbcUrl);
+			jdbcUrl = evaluateValue("url", jdbcUrl);
 			try {
 				jdbcUrl = URLDecoder.decode(jdbcUrl, StandardCharsets.UTF_8.toString());
 			} catch (UnsupportedEncodingException e) {
@@ -73,17 +73,17 @@ public abstract class AbstractConfiguredDataSource extends HikariDataSource {
 		if (username != null && username.contains("/")) {
 			// Username appears as username/password pair
 			String[] credentials = username.split("/");
-			super.setUsername(evaluateExpression("username1/2", credentials[0]));
-			super.setPassword(evaluateExpression("password2/2", credentials.length > 1 ? credentials[1] : ""));
+			super.setUsername(evaluateValue("username1/2", credentials[0]));
+			super.setPassword(evaluateValue("password2/2", credentials.length > 1 ? credentials[1] : ""));
 		} else if (username != null) {
-			super.setUsername(evaluateExpression("username", username));
+			super.setUsername(evaluateValue("username", username));
 		}
 	}
 
 	@Override
 	public void setPassword(String password) {
 		if (password != null) {
-			super.setPassword(evaluateExpression("password", password));
+			super.setPassword(evaluateValue("password", password));
 		}
 	}
 
@@ -119,11 +119,11 @@ public abstract class AbstractConfiguredDataSource extends HikariDataSource {
 		if (username != null && username.contains("/")) {
 			// Username appears as username/password
 			String[] credentials = username.split("/");
-			username = evaluateExpression("username", credentials[0]);
-			password = evaluateExpression("password", credentials.length > 1 ? credentials[1] : "");
+			username = evaluateValue("username", credentials[0]);
+			password = evaluateValue("password", credentials.length > 1 ? credentials[1] : "");
 		} else {
-			username = evaluateExpression("username", username);
-			password = evaluateExpression("password", password);
+			username = evaluateValue("username", username);
+			password = evaluateValue("password", password);
 		}
 
 		if (Objects.equals(username, getUsername()) && Objects.equals(password, getPassword())) {
@@ -163,9 +163,9 @@ public abstract class AbstractConfiguredDataSource extends HikariDataSource {
 	/**
 	 * Sub-classes are responsible for the implementation
 	 *
-	 * @param property
-	 * @param expression
+	 * @param description Human-readable description of value
+	 * @param value       Value to evaluate
 	 * @return
 	 */
-	protected abstract String evaluateExpression(String property, String expression);
+	protected abstract String evaluateValue(String description, String value);
 }

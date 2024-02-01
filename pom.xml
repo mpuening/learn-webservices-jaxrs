@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2</version>
 	</parent>
 
 	<properties>
@@ -319,7 +319,7 @@
 								<containerId>${cargo-glassfish-runtime}</containerId>
 								<systemProperties>
 									<app.greeting>Hello from GlassFish!</app.greeting>
-									<test.users.enabled>true</test.users.enabled>
+									<app.profiles.active>local</app.profiles.active>
 								</systemProperties>
 							</container>
 						</configuration>
@@ -346,7 +346,7 @@
 								<!-- TomEE does not use the usual location -->
 								<mp.openapi.servers>/${project.artifactId}</mp.openapi.servers>
 								<openapi.ui.yamlUrl>/${project.artifactId}/openapi</openapi.ui.yamlUrl>
-								<test.users.enabled>true</test.users.enabled>
+								<app.profiles.active>local</app.profiles.active>
 							</systemVariables>
 							<context>${project.artifactId}</context>
 						</configuration>
@@ -373,6 +373,8 @@
 						<configuration>
 							<classifier>datasource</classifier>
 							<includes>
+								<include>**/*Environment*</include>
+								<include>**/*ExpressionEvaluator*</include>
 								<include>**/*DataSource*</include>
 								<include>**/*Flyway*</include>
 								<include>**/*.properties</include>

@@ -4,6 +4,7 @@ import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Startup;
 
+import io.github.learnjaxrs.util.env.Environment;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @Startup
@@ -14,6 +15,10 @@ public class StartupCheck implements HealthCheck {
 	public HealthCheckResponse call() {
 		String name = "JAX-RS API Startup Check";
 		// If you got here, you're up
-		return HealthCheckResponse.named(name).up().build();
+		return HealthCheckResponse
+				.named(name)
+				.withData("activeProfiles", Environment.getActiveProfiles())
+				.up()
+				.build();
 	}
 }
