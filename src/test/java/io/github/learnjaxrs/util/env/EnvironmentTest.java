@@ -11,7 +11,7 @@ public class EnvironmentTest {
 	public void testEnvironment() {
 		System.setProperty(Environment.PROFILES_PROPERTY_NAME, "mock,unittest,dev");
 		ExpressionEvaluator evaluator = new MPExpressionEvaluator();
-		ConfigurableEnvironment environment = new ConfigurableEnvironment(EnvironmentTest.class.getClassLoader(), evaluator);
+		ConfigurableEnvironment environment = new ConfigurableEnvironment(evaluator);
 		assertNotNull(environment);
 		
 		String username = environment.getProperty("username", "db.user");

@@ -46,7 +46,7 @@ public class DataSourceConfiguration {
 		// It's not good practice to have an app be responsible to run migrations.
 		// But it is quite convenient for local development
 		ExpressionEvaluator evaluator = new MPExpressionEvaluator();
-		Environment environment = new ConfigurableEnvironment(DataSourceConfiguration.class.getClassLoader(), evaluator);
+		Environment environment = new ConfigurableEnvironment(evaluator);
 		if ("true".equalsIgnoreCase(environment.getProperty("FlyWay", "flyway.migration.enabled", "false"))) {
 			FlywayMigration.run(dataSource, DataSourceConfiguration.class.getClassLoader());			
 		}

@@ -17,7 +17,7 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
  */
 public class TestCredentialValidator implements CredentialValidator {
 
-	public static final String TEST_USERS_ENABLED_SYS_PROP = "test.users.enabled";
+	public static final String TEST_USERS_ENABLED_PROPERTY = "test.users.enabled";
 
 	private static Map<String, String> USERS = Map.of(
 
@@ -55,7 +55,7 @@ public class TestCredentialValidator implements CredentialValidator {
 
 	protected boolean checkIfEnabled(Environment environment) {
 		String testUsersEnabled = environment
-				.getProperty(TEST_USERS_ENABLED_SYS_PROP, TEST_USERS_ENABLED_SYS_PROP, "false");
+				.getProperty(TEST_USERS_ENABLED_PROPERTY, TEST_USERS_ENABLED_PROPERTY, "false");
 		return Boolean.valueOf(testUsersEnabled);
 	}
 

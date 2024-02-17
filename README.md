@@ -178,8 +178,8 @@ the `audience` is a claim that is asserted to be a provided value.
 
 Here are the redirect URLs that need to registered for this application when running locally:
 
-* http://localhost:8080/my-jaxrs-api/openapi-ui/oauth2-redirect.html
-* http://localhost:9080/my-jaxrs-api/openapi-ui/oauth2-redirect.html
+* http://localhost:8080/learn-webservice-jaxrs/openapi-ui/oauth2-redirect.html
+* http://localhost:9080/learn-webservice-jaxrs/openapi-ui/oauth2-redirect.html
 * http://localhost:9080/openapi/ui/oauth2-redirect.html
 
 All the configuration for authorization is in the `SecurityConfiguration` class.
@@ -246,7 +246,7 @@ Getting a `DataSource` configured and customized using system properties or envi
 consistently across all supported application servers is a seemingly impossible task using just the Jakarta EE
 specification. The differences in the implementations of the application servers get in the way. But as the old
 adage says, everything can be solved by another level of indirection. And that is what this application has with
-`ConfigurableDataSource` and `MPConfigurableDataSource`. These classes pull properties from the `Environment` 
+`CompatabilityDataSource` and `ConfigurableDataSource`. These classes pull properties from the `Environment` 
 (Micro-profile Config) and smooth over all the various differences of the supported application servers. The
 `DataSourceConfiguration` class uses that with an Hikari DataSource. What ends up happening though is that
 there is potentially a *connection-pool-enabled* DataSource that sits on top of a *connection-pool-enabled* DataSource.

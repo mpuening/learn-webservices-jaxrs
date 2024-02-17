@@ -10,10 +10,9 @@ import io.github.learnjaxrs.util.env.MPExpressionEvaluator;
  *
  * See the DataSourceConfiguration class for example usage.
  */
-public class MPConfigurableDataSource extends EnvConfigurableDataSource {
+public class MPConfigurableDataSource extends ConfigurableDataSource {
 
 	public MPConfigurableDataSource() {
-		super(new ConfigurableEnvironment(MPConfigurableDataSource.class.getClassLoader(), new MPExpressionEvaluator()),
-				new MPExpressionEvaluator());
+		super(new ConfigurableEnvironment(new MPExpressionEvaluator()), new MPExpressionEvaluator());
 	}
 }

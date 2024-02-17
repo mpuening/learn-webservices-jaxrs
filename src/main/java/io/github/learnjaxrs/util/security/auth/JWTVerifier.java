@@ -96,8 +96,7 @@ public class JWTVerifier implements AuthProvider {
 
 	public JWTVerifier() {
 		try {
-			Environment environment = new ConfigurableEnvironment(
-					SecurityConfiguration.class.getClassLoader(), new MPExpressionEvaluator());
+			Environment environment = new ConfigurableEnvironment(new MPExpressionEvaluator());
 
 			String issuerUrl = environment.getProperty("Issuer", "oauth2.issuer.url");
 			String jwksUrl = environment.getProperty("JWKS Url", "oauth2.jwks.url");

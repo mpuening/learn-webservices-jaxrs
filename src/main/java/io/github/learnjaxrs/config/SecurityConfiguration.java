@@ -8,7 +8,7 @@ import io.github.learnjaxrs.util.security.auth.CheckAuthProvider;
 import io.github.learnjaxrs.util.security.auth.HttpAuthenticationMechanismChain;
 import io.github.learnjaxrs.util.security.auth.JWTVerifier;
 import io.github.learnjaxrs.util.security.identity.CredentialValidator;
-import io.github.learnjaxrs.util.security.identity.CredentialValidatorChain;
+import io.github.learnjaxrs.util.security.identity.DelegatingCredentialValidator;
 import io.github.learnjaxrs.util.security.identity.EnvConfiguredLDAPCredentialValidator;
 import io.github.learnjaxrs.util.security.identity.TestCredentialValidator;
 import jakarta.annotation.security.DeclareRoles;
@@ -35,12 +35,11 @@ public class SecurityConfiguration extends HttpAuthenticationMechanismChain impl
 	 * system.
 	 */
 	protected static BasicAuthProvider basicAuthProvider() {
-		Environment environment = new ConfigurableEnvironment(
-				SecurityConfiguration.class.getClassLoader(), new MPExpressionEvaluator());
+		Environment environment = new ConfigurableEnvironment(new MPExpressionEvaluator());
 
 		final CredentialValidator credentialValidator =
 
-				new CredentialValidatorChain(
+				new DelegatingCredentialValidator(
 						new TestCredentialValidator(environment),
 						new EnvConfiguredLDAPCredentialValidator(environment));
 
