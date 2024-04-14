@@ -17,5 +17,10 @@
 				value="drop-and-create" />
 		</properties>
 		-->
+
+		<properties>
+			<property name="hibernate.jdbc.lob.non_contextual_creation" value="true"/>
+		</properties>
+
 	</persistence-unit>
 </persistence>
