@@ -5,9 +5,34 @@ Learn REST Web Services (JAX-RS)
 
 This project is a simple JAX-RS application that includes a simple Ping service.
 
+There are three sub-projects. 
+
+## [`learn-webservices-jaxrs-server`](./learn-webservices-jaxrs-server)
+
+This is the heart of this project. It is a micro-pofile application that runs the
+APIs.
+
 > **Note**
 > There is a Maven Archetype of this project available at
 > https://github.com/mpuening/maven-archetypes#JAX-RS-API
+
+## [`learn-webservices-jaxrs-stubs`](./learn-webservices-jaxrs-stubs)
+
+This is a stubs project for any Java client that would like to invoke the API.
+It generates Java code that represents the model in the `openapi.yml` file. This
+sub-project uses the `openapi-generator-maven-plugin` to generate Java code with
+the intended purpose of using Spring's `WebClient`.
+
+One fault of the generated code is that it still uses `Javax.*` annotations and
+not the `jakarta.*` annotations.
+
+## [`learn-webservices-jaxrs-client`](./learn-webservices-jaxrs-client)
+
+This project contains a simple test case that demonstrates using the `stubs` with
+Spring's `WebClient`.
+
+Overview
+====================================
 
 This application was tested (to varying levels of success) against these application servers:
 
@@ -38,16 +63,16 @@ To build the application, run this command:
 mvn clean package
 ```
 
-To run the application within an application server, run one of these commands; its UI will
-be available at its corresponding URL:
+To run the server application within an application server, run one of these commands from the
+server directory; its UI will be available at its corresponding URL:
 
 
 | Command | URL |
-| --------------------------- | ---------------------------------------------- |
-| mvn -P liberty liberty:run  | http://localhost:9080/learn-webservices-jaxrs/index.html |
-| mvn -P wildfly cargo:run    | http://localhost:8080/learn-webservices-jaxrs/index.html |
-| mvn -P glassfish cargo:run  | http://localhost:8080/learn-webservices-jaxrs/index.html |
-| mvn -P tomee tomee:run      | http://localhost:8080/learn-webservices-jaxrs/index.html |
+| --------------------------- | --------------------------------------------------------------- |
+| mvn -P liberty liberty:run  | http://localhost:9080/learn-webservices-jaxrs-server/index.html |
+| mvn -P wildfly cargo:run    | http://localhost:8080/learn-webservices-jaxrs-server/index.html |
+| mvn -P glassfish cargo:run  | http://localhost:8080/learn-webservices-jaxrs-server/index.html |
+| mvn -P tomee tomee:run      | http://localhost:8080/learn-webservices-jaxrs-server/index.html |
 
 From that UI page, you have simple links to:
 
@@ -64,21 +89,21 @@ Application servers vary in some ways, so the UI reflects that.
 Here are a couple of `curl` commands to test the API from the command line:
 
 ```
-curl --verbose http://localhost:8080/learn-webservices-jaxrs/api/ping
+curl --verbose http://localhost:8080/learn-webservices-jaxrs-server/api/ping
 
-curl --verbose --user alice:password http://localhost:8080/learn-webservices-jaxrs/api/me
+curl --verbose --user alice:password http://localhost:8080/learn-webservices-jaxrs-server/api/me
 ```
 
 To build a Docker image, run this command:
 
 ```
-mvn clean package && sudo docker build -t io.github.learnjaxrs/learn-webservices-jaxrs .
+mvn clean package && sudo docker build -t io.github.learnjaxrs/learn-webservices-jaxrs-server .
 ```
 
 To run the Docker image, run this command:
 
 ```
-docker rm -f learn-webservices-jaxrs || true && docker run -d -p 9080:9080 --name learn-webservices-jaxrs io.github.learnjaxrs/learn-webservices-jaxrs
+docker rm -f learn-webservices-jaxrs-server || true && docker run -d -p 9080:9080 --name learn-webservices-jaxrs-server io.github.learnjaxrs/learn-webservices-jaxrs-server
 ```
 
 Or on Rancher Desktop:
@@ -97,6 +122,7 @@ docker rmi io.github.learnjaxrs/learn-webservices-jaxrs:latest
 
 Micro-profile / Environment Information
 =======================================
+
 This application uses Micro-profile dependencies. The properties this application uses are
 located in `src/main/resources/META-INF/microprofile-config.properties`.
 
@@ -178,8 +204,8 @@ the `audience` is a claim that is asserted to be a provided value.
 
 Here are the redirect URLs that need to registered for this application when running locally:
 
-* http://localhost:8080/learn-webservice-jaxrs/openapi-ui/oauth2-redirect.html
-* http://localhost:9080/learn-webservice-jaxrs/openapi-ui/oauth2-redirect.html
+* http://localhost:8080/learn-webservice-jaxrs-server/openapi-ui/oauth2-redirect.html
+* http://localhost:9080/learn-webservice-jaxrs-server/openapi-ui/oauth2-redirect.html
 * http://localhost:9080/openapi/ui/oauth2-redirect.html
 
 All the configuration for authorization is in the `SecurityConfiguration` class.

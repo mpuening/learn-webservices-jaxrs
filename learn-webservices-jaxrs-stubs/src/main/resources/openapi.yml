@@ -1,0 +1,108 @@
+---
+openapi: 3.0.3
+info:
+  title: Generated API
+  version: "1.0"
+servers:
+- url: /learn-webservices-jaxrs-server
+paths:
+  /api/me:
+    get:
+      responses:
+        "200":
+          description: Me Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeResponse'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+      security:
+      - basicAuth: []
+      - oauth2: []
+  /api/ping:
+    get:
+      responses:
+        "200":
+          description: Ping Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+components:
+  schemas:
+    MeResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            username:
+              description: Name of user
+              type: string
+            admin:
+              description: Is user admin?
+              type: boolean
+    PingResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            greeting:
+              description: Hello message
+              type: string
+            dataSource:
+              description: Is data source available?
+              type: boolean
+            entityManager:
+              description: Is entity manager available?
+              type: boolean
+    ProblemDetail:
+      type: object
+      properties:
+        status:
+          format: int32
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://authserver:9000/oauth2/authorize
+          tokenUrl: http://authserver:9000/oauth2/token
+          scopes:
+            user: User Scope
