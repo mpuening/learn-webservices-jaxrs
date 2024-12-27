@@ -1,6 +1,6 @@
 package io.github.learnjaxrs.util.security.auth;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +23,6 @@ import com.nimbusds.jwt.proc.DefaultJWTClaimsVerifier;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import com.nimbusds.jwt.proc.JWTProcessor;
 
-import io.github.learnjaxrs.config.SecurityConfiguration;
 import io.github.learnjaxrs.util.env.ConfigurableEnvironment;
 import io.github.learnjaxrs.util.env.Environment;
 import io.github.learnjaxrs.util.env.MPExpressionEvaluator;
@@ -124,7 +123,7 @@ public class JWTVerifier implements AuthProvider {
 		long ttl = 60 * 60 * 1000; // 1 hour
 		long refreshTimeout = 60 * 1000; // 1 minute
 		JWKSource<SecurityContext> jwkSource = JWKSourceBuilder
-				.create(new URL(jwksUrl))
+				.create(URI.create(jwksUrl).toURL())
 				.cache(ttl, refreshTimeout)
 				.retrying(true)
 				.build();

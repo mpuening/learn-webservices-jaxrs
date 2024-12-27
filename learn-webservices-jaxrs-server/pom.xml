@@ -19,22 +19,22 @@
 
 	<properties>
 		<!-- https://github.com/OpenLiberty/ci.maven -->
-		<liberty-maven-plugin.version>3.10.2</liberty-maven-plugin.version>
-		<liberty-runtime.version>24.0.0.3</liberty-runtime.version>
+		<liberty-maven-plugin.version>3.11.2</liberty-maven-plugin.version>
+		<liberty-runtime.version>24.0.0.12</liberty-runtime.version>
 		<liberty.loose-application>true</liberty.loose-application>
 
 		<!-- https://codehaus-cargo.github.io/cargo/Maven+3+Plugin+Reference+Guide.html -->
 		<!-- https://codehaus-cargo.github.io/cargo/Configuration+properties.html -->
-		<cargo-maven-plugin.version>1.10.12</cargo-maven-plugin.version>
+		<cargo-maven-plugin.version>1.10.16</cargo-maven-plugin.version>
 
-		<cargo-wildfly-runtime>wildfly31x</cargo-wildfly-runtime>
+		<cargo-wildfly-runtime>wildfly34x</cargo-wildfly-runtime>
 		<cargo-wildfly-script.dir>${project.basedir}/src/main/wildfly</cargo-wildfly-script.dir>
 
 		<cargo-glassfish-runtime>glassfish7x</cargo-glassfish-runtime>
 
 		<!-- https://tomee.apache.org/master/docs/tomee-maven-plugin.html -->
-		<tomee-maven-plugin.version>10.0.0-M1</tomee-maven-plugin.version>
-		<tomee-runtime.version>10.0.0-M1</tomee-runtime.version>
+		<tomee-maven-plugin.version>10.0.0</tomee-maven-plugin.version>
+		<tomee-runtime.version>10.0.0</tomee-runtime.version>
 
 		<!-- Library support for Open Liberty -->
 		<repo.dir>${user.home}/.m2/repository</repo.dir>
@@ -48,7 +48,7 @@
 
 		<!-- Odds and Ends -->
 		<mp-ext-openapi-ui.version>2.0.0</mp-ext-openapi-ui.version>
-		<nimbus.version>9.37.3</nimbus.version>
+		<nimbus.version>9.48</nimbus.version>
 	</properties>
 
 	<dependencies>
@@ -130,13 +130,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.dataformat</groupId>
-					<artifactId>jackson-dataformat-toml</artifactId>
-				</exclusion>
-			</exclusions>
+			<artifactId>flyway-database-derby</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
