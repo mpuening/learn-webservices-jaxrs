@@ -24,4 +24,5 @@
 		<file name="${datasourceutil}" />
 	</library>
 
+	<ltpa keysPassword="your_strong_password" />
 </server>
