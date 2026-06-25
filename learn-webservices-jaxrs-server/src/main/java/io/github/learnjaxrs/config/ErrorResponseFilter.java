@@ -6,6 +6,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
 import jakarta.ws.rs.container.ContainerResponseFilter;
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
@@ -25,7 +26,9 @@ public class ErrorResponseFilter implements ContainerResponseFilter {
 
 	private static final String FORBIDDEN_MESSAGE = "You are not authorized to access this resource.";
 	private static final String UNAUTHORIZED_MESSAGE = "You must provide valid credentials to access this resource.";
+	private static final String NOT_FOUND_ERROR_MESSAGE = "Uh oh, 404 Not Found.";
 	private static final String INTERNAL_SERVER_ERROR_MESSAGE = "Ugh. The server encountered an error from which it could not recover.";
+	private static final String NO_MESSAGE = "No message.";
 
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
@@ -39,8 +42,21 @@ public class ErrorResponseFilter implements ContainerResponseFilter {
 			respondWith(requestContext, responseContext, Response.Status.UNAUTHORIZED, UNAUTHORIZED_MESSAGE);
 		} else if (status == 403) {
 			respondWith(requestContext, responseContext, Response.Status.FORBIDDEN, FORBIDDEN_MESSAGE);
+		} else if (status == 404) {
+			respondWith(requestContext, responseContext, Response.Status.NOT_FOUND, NOT_FOUND_ERROR_MESSAGE);
 		} else if (status == 500) {
 			respondWith(requestContext, responseContext, Response.Status.INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR_MESSAGE);
+		} else {
+			Object currentEntity = responseContext.getEntity();
+			if (currentEntity != null) {
+				// Try to preserve message. Not sure if this is correct.
+				responseContext.setEntity(
+						currentEntity,
+						responseContext.getEntityAnnotations(),
+						MediaType.APPLICATION_JSON_TYPE);
+			} else {
+				respondWith(requestContext, responseContext, Response.Status.fromStatusCode(status), NO_MESSAGE);
+			}
 		}
 	}
 

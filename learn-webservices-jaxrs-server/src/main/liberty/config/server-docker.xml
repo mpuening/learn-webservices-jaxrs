@@ -2,10 +2,10 @@
 <server description="jaxrs">
 
 	<featureManager>
-		<feature>microProfile-6.1</feature>
-		<feature>jdbc-4.2</feature>
-		<feature>persistence-3.1</feature>
-		<feature>appSecurity-5.0</feature>
+		<feature>microProfile-7.1</feature>
+		<feature>jdbc-4.3</feature>
+		<feature>persistence-3.2</feature>
+		<feature>appSecurity-6.0</feature>
 	</featureManager>
 
 	<variable name="default.http.port" defaultValue="9080" />
@@ -24,4 +24,5 @@
 		<file name="/config/my-jsp-app-datasource.jar" />
 	</library>
 
+	<ltpa keysPassword="your_strong_password" />
 </server>

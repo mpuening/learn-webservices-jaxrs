@@ -13,15 +13,19 @@
 	<parent>
 		<groupId>io.github.learnjaxrs</groupId>
 		<artifactId>learn-webservices-jaxrs</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<properties>
-		<openapi-generator.version>7.13.0</openapi-generator.version>
+		<openapi-generator.version>7.23.0</openapi-generator.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
@@ -30,11 +34,12 @@
 		<dependency>
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-annotations</artifactId>
+			<version>4.10.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>0.2.6</version>
+			<version>0.2.10</version>
 		</dependency>
 	</dependencies>
 

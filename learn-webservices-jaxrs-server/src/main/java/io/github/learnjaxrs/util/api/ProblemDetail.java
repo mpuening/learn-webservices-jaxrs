@@ -23,20 +23,24 @@ import jakarta.ws.rs.core.Response.Status;
  *
  * QUESTIONABLE Why do some attributes not work? (e.g. hidden)
  */
-@Schema
+@Schema(
+	    name = "ProblemDetail",
+	    description = "ProblemDetail Response",
+	    properties = {
+	    	@SchemaProperty(name = "title", description = "Short Error Message"),
+	    	@SchemaProperty(name = "detail", description = "Detailed Error Message"),
+	    	@SchemaProperty(name = "properties", hidden = true, description = "Varying other properties")
+	    }
+	)
 @JsonbTypeSerializer(ProblemDetail.ProblemDetailSerializer.class)
 public class ProblemDetail {
 
-	@SchemaProperty(name = "status", description = "HTTP Status Code")
 	private int status;
 
-	@SchemaProperty(name = "title", description = "Short Error Message")
 	private String title;
 
-	@SchemaProperty(name = "detail", description = "Detailed Error Message")
 	private String detail;
 
-	@SchemaProperty(name = "properties", hidden = true, description = "Varying other properties")
 	private Map<String, Object> properties;
 
 	protected ProblemDetail(int status, String title, String detail) {

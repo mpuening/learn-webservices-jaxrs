@@ -13,14 +13,14 @@
 	<parent>
 		<groupId>io.github.learnjaxrs</groupId>
 		<artifactId>learn-webservices-jaxrs</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<properties>
 		<!-- https://github.com/OpenLiberty/ci.maven -->
 		<liberty-maven-plugin.version>3.12.0</liberty-maven-plugin.version>
-		<liberty-runtime.version>26.0.0.4</liberty-runtime.version>
+		<liberty-runtime.version>26.0.0.6</liberty-runtime.version>
 		<liberty.loose-application>true</liberty.loose-application>
 
 		<!-- https://codehaus-cargo.github.io/cargo/Maven+3+Plugin+Reference+Guide.html -->
@@ -30,11 +30,11 @@
 		<cargo-wildfly-runtime>wildfly39x</cargo-wildfly-runtime>
 		<cargo-wildfly-script.dir>${project.basedir}/src/main/wildfly</cargo-wildfly-script.dir>
 
-		<cargo-glassfish-runtime>glassfish7x</cargo-glassfish-runtime>
+		<cargo-glassfish-runtime>glassfish8x</cargo-glassfish-runtime>
 
 		<!-- https://tomee.apache.org/master/docs/tomee-maven-plugin.html -->
-		<tomee-maven-plugin.version>10.1.5</tomee-maven-plugin.version>
-		<tomee-runtime.version>10.1.5</tomee-runtime.version>
+		<tomee-maven-plugin.version>11.0.0-M1</tomee-maven-plugin.version>
+		<tomee-runtime.version>11.0.0-M1</tomee-runtime.version>
 
 		<!-- Library support for Open Liberty -->
 		<repo.dir>${user.home}/.m2/repository</repo.dir>
@@ -224,7 +224,7 @@
 						<configuration>
 							<runtimeArtifact>
 								<groupId>io.openliberty</groupId>
-								<artifactId>openliberty-jakartaee10</artifactId>
+								<artifactId>openliberty-jakartaee11</artifactId>
 								<version>${liberty-runtime.version}</version>
 								<type>zip</type>
 							</runtimeArtifact>
